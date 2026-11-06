@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspiración Diaria</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0d0d11;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .card {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 400px;
+            width: 90%;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            margin-bottom: 30px;
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-trigger {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 14px 32px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-trigger:active { transform: scale(0.95); }
+        .phrase-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.8s ease;
+        }
+        .phrase-container.reveal {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .quote {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            font-style: italic;
+            color: #e2e8f0;
+            margin-bottom: 15px;
+        }
+        .meta {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div id="init-view">
+            <h1>Me inspiras</h1>
+            <button class="btn-trigger" onclick="unlockDay()">Descubrir hoy</button>
+        </div>
+        
+        <div id="phrase-view" class="phrase-container">
+            <p class="quote" id="daily-quote">...</p>
+            <p class="meta" id="daily-meta">Inspiración del día</p>
+        </div>
+    </div>
+
+    <script>
+        // Lista exclusiva de frases de alto nivel.
+        const frasesPro = [
+            "Entrega todo hoy; el mañana es solo una promesa que nadie ha firmado.",
+            "Agota los momentos, no los guardes; el futuro no se puede acumular.",
+            "La genialidad es la persistencia del entusiasmo frente a la rutina.",
+            "No cuentes los días, haz que los días cuenten con la fuerza de tu impacto.",
+            "Quien tiene un porqué para vivir puede soportar casi cualquier cómo.",
+            "El arte de vivir es cambiar las respuestas antes de que te cambien las preguntas.",
+            "Tu única ventaja competitiva real es la profundidad con la que decides entregarte hoy."
+        ];
+
+        function unlockDay() {
+            const hoy = new Date();
+            const diaDelAnio = Math.floor((hoy - new Date(hoy.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            const indiceFrase = diaDelAnio % frasesPro.length;
+            
+            document.getElementById('daily-quote').innerText = `"${frasesPro[indiceFrase]}"`;
+            
+            const opciones = { day: 'numeric', month: 'short' };
+            const fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
+            document.getElementById('daily-meta').innerText = `Exclusivo — ${fechaFormateada}`;
+
+            document.getElementById('init-view').style.display = 'none';
+            const view = document.getElementById('phrase-view');
+            view.classList.add('reveal');
+        }
+    </script>
+</body>
+</html>
